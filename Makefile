@@ -2,6 +2,10 @@
 run:
 	python manage.py runserver
 
+.PHONY: test
+test:
+	python manage.py test
+
 .PHONY: migrate
 migrate:
 	python manage.py migrate

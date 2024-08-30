@@ -38,12 +38,12 @@ class BaseInventoryItem(models.Model):
     )
     name = models.CharField(max_length=50)
     description = models.TextField(blank=True)
-    par = models.DecimalField(max_digits=3, decimal_places=1, blank=True)
+    par = models.DecimalField(max_digits=3, decimal_places=1, default=1.0)
     quantity_on_hand = models.DecimalField(max_digits=3, decimal_places=1,
                                            default=0.0)
     distributor = models.ForeignKey(Distributor, on_delete=models.CASCADE)
     product_identifier = models.CharField(max_length=64, blank=True)
-    category = models.ManyToManyField(Category)
+    categories = models.ManyToManyField(Category)
 
     class Meta:
         ordering = ['name']

@@ -11,10 +11,11 @@ class CategoryAdmin(admin.ModelAdmin):
 @admin.register(im.FoodOrderItem)
 class FoodOrderItemAdmin(admin.ModelAdmin):
     list_display = ['name', 'distributor', 'price_per_unit',
-                    'current_inventory', 'item_par', 'last_updated_at']
-    list_filter = ['category', 'distributor__name']
+                    'current_inventory', 'item_par', 'last_updated_at',
+                    'all_categories']
+    list_filter = ['categories__name', 'distributor__name']
     search_fields = ['name', 'description']
-    sortable_by = ['name', 'last_updated_at', 'distributor']
+    sortable_by = ['name', 'last_updated_at', 'distributor', 'categories']
 
     def price_per_unit(self, obj):
         return f'${obj.latest_price}'
@@ -24,3 +25,6 @@ class FoodOrderItemAdmin(admin.ModelAdmin):
 
     def current_inventory(self, obj):
         return f'{obj.quantity_on_hand} {obj.unit}'
+
+    def all_categories(self, obj):
+        return ', '.join([c.name for c in obj.categories.all()])
