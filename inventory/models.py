@@ -46,6 +46,7 @@ class BaseInventoryItem(models.Model):
     categories = models.ManyToManyField(Category)
 
     class Meta:
+        abstract = True
         ordering = ['name']
 
     def __str__(self):
