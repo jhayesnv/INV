@@ -3,6 +3,8 @@ from uuid import uuid4
 from django.db import models
 
 import inventory.models as im
+from app.utils.model_helpers import (COCKTAIL_CATEGORY_CHOICES,
+                                     BASE_SPIRIT_CHOICES)
 
 
 class BaseRecipe(models.Model):
@@ -37,3 +39,31 @@ class MenuItemRecipe(BaseRecipe):
     recipes = models.ManyToManyField(KitchenRecipe)
     is_brunch = models.BooleanField(default=False)
     is_social_hour = models.BooleanField(default=False)
+
+
+class BarRecipe(BaseRecipe):
+    """ Recipes relating to the bar """
+    ingredients = models.ManyToManyField(im.FoodOrderItem)
+
+
+class CocktailRecipe(BaseRecipe):
+    """ Recipes relating to cocktails """
+    METHOD_CHOICES = [
+        ('Shake/Strain', 'Shake/Strain'),
+        ('Shake/Dump', 'Shake/Dump'),
+        ('Stir/Strain', 'Stir/Strain'),
+        ('Build', 'Build'),
+    ]
+    category = models.CharField(max_length=21,
+                                choices=COCKTAIL_CATEGORY_CHOICES,
+                                default='Levitate Menu')
+    base_spirit = models.CharField(max_length=7,
+                                   choices=BASE_SPIRIT_CHOICES,
+                                   default='Bourbon')
+    method = models.CharField(max_length=12,
+                              choices=METHOD_CHOICES,
+                              default='Shake/Strain')
+    glassware = models.CharField(max_length=50, blank=True)
+    bar_ingredients = models.ManyToManyField(BarRecipe)
+    spirit_ingredients = models.ManyToManyField(im.SpiritOrderItem)
+    garnish = models.CharField(max_length=50, blank=True)

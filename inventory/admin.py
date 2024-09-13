@@ -11,9 +11,11 @@ class CategoryAdmin(admin.ModelAdmin):
 @admin.register(im.FoodOrderItem)
 class FoodOrderItemAdmin(admin.ModelAdmin):
     list_display = ['name', 'distributor', 'price_per_unit',
-                    'current_inventory', 'item_par', 'last_updated_at',
-                    'all_categories']
-    list_filter = ['categories__name', 'distributor__name']
+                    'current_inventory', 'item_par',
+                    'all_categories', 'needs_ordering', 'last_updated_at']
+    list_filter = ['area_categories__name', 'distributor__name',
+                   'needs_ordering']
+    list_editable = ['needs_ordering']
     search_fields = ['name', 'description']
     sortable_by = ['name', 'last_updated_at', 'distributor', 'categories']
 
