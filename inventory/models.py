@@ -93,6 +93,7 @@ class Region(BaseRegion):
 
 
 class Producer(models.Model):
+    """ Wine, Beer, Spirit, and Sake producers """
     CATEGORY_CHOICES = [
         ('Wine', 'Wine'),
         ('Beer', 'Beer'),
@@ -114,6 +115,27 @@ class Producer(models.Model):
         return self.name
 
 
+class Grape(models.Model):
+    """ Wine grapes """
+    COLOR_CHOICES = [
+        ('Red', 'Red'),
+        ('White', 'White'),
+    ]
+    id = models.UUIDField(
+        primary_key=True,
+        default=uuid4,
+        editable=False
+    )
+    name = models.CharField(max_length=100, unique=True)
+    color = models.CharField(max_length=5,
+                             choices=COLOR_CHOICES,
+                             default='Red')
+    description = models.TextField(blank=True)
+
+    def __str__(self):
+        return self.name
+
+
 class WineRegion(Region):
     """ A more descriptive region entity for advanced wine studies """
     geography = models.TextField(blank=True,
@@ -121,8 +143,7 @@ class WineRegion(Region):
                                             " mountains, lakes, rivers,"
                                             " forests where in relation to"
                                             " other regions, etc."))
-    grapes_allowed = models.TextField(blank=True,
-                                      help_text="Not just the obvious ones")
+    grapes_allowed = models.ManyToManyField(Grape)
     viticultural_techniques = models.TextField(blank=True,
                                                help_text=("ripeness at harvest,"  # noqa: W605 E501 also WTF!! Eat shit
                                                           " vine training,"
@@ -158,6 +179,7 @@ class WineRegion(Region):
 
 
 class WineOrderItem(BaseInventoryItem):
+    """ All Wine related entities """
     UNIT_CHOICES = (
         ('cs', 'cs'),
         ('btl', 'btl'),
@@ -173,8 +195,9 @@ class WineOrderItem(BaseInventoryItem):
     unit = models.CharField(max_length=9,
                             choices=UNIT_CHOICES,
                             default='cs')
-    producer = models.ForeignKey(Producer, on_delete=models.CASCADE)
     vintage = models.CharField(max_length=4, blank=True)
+    producer = models.ForeignKey(Producer, on_delete=models.CASCADE)
+    grapes = models.ManyToManyField(Grape)
     region = models.ForeignKey(WineRegion,
                                on_delete=models.SET_NULL,
                                null=True,
@@ -185,6 +208,7 @@ class WineOrderItem(BaseInventoryItem):
 
 
 class SpiritOrderItem(BaseInventoryItem):
+    """ All Spirit related entities """
     UNIT_CHOICES = (
         ('cs', 'cs'),
         ('btl', 'btl'),
@@ -203,6 +227,7 @@ class SpiritOrderItem(BaseInventoryItem):
 
 
 class BeerOrderItem(BaseInventoryItem):
+    """ All Beer related entities """
     UNIT_CHOICES = [
         ('keg', 'keg'),
         ('cans', 'cans'),
