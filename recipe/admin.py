@@ -27,8 +27,14 @@ class BarRecipeAdmin(admin.ModelAdmin):
 @admin.register(rm.CocktailRecipe)
 class CocktailRecipeAdmin(admin.ModelAdmin):
     list_display = ['name', 'category', 'base_spirit',
-                    'method', 'glassware', 'bar_ingredients',
-                    'spirit_ingredients', 'garnish']
+                    'method', 'glassware', 'all_bar_ingredients',
+                    'all_spirit_ingredients', 'garnish']
     list_filter = ['base_spirit']
     search_fields = ['name', 'description', 'bar_ingredients',
                      'spirit_ingredients']
+
+    def all_bar_ingredients(self, obj):
+        return ', '.join([bi.name for bi in obj.bar_ingredients.all()])
+
+    def all_spirit_ingredients(self, obj):
+        return ', '.join([si.name for si in obj.spirit_ingredients.all()])

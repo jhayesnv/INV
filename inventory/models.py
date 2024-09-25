@@ -86,10 +86,11 @@ class SubRegion(BaseRegion):
 
 
 class Region(BaseRegion):
+    """ Regions outside of the wine category """
     area = models.CharField(max_length=18,
                             choices=REGION_AREA_CHOICES,
                             default='United States')
-    sub_regions = models.ManyToManyField(SubRegion)
+    sub_regions = models.ManyToManyField(SubRegion, blank=True)
 
 
 class Producer(models.Model):
@@ -106,10 +107,11 @@ class Producer(models.Model):
         editable=False
     )
     name = models.CharField(max_length=100, unique=True)
+    description = models.TextField(blank=True)
     category = models.CharField(max_length=7,
                                 choices=CATEGORY_CHOICES,
                                 default='Spirits')
-    regions = models.ManyToManyField(Region)
+    regions = models.ManyToManyField(Region, blank=True)
 
     def __str__(self):
         return self.name
@@ -136,14 +138,18 @@ class Grape(models.Model):
         return self.name
 
 
-class WineRegion(Region):
+class WineRegion(BaseRegion):
     """ A more descriptive region entity for advanced wine studies """
+    area = models.CharField(max_length=18,
+                            choices=REGION_AREA_CHOICES,
+                            default='United States')
+    sub_regions = models.ManyToManyField(SubRegion, blank=True)
     geography = models.TextField(blank=True,
                                  help_text=("country, area, natural features e.g."  # noqa: W605 E501 also WTF!! Eat shit
                                             " mountains, lakes, rivers,"
                                             " forests where in relation to"
                                             " other regions, etc."))
-    grapes_allowed = models.ManyToManyField(Grape)
+    grapes_allowed = models.ManyToManyField(Grape, blank=True)
     viticultural_techniques = models.TextField(blank=True,
                                                help_text=("ripeness at harvest,"  # noqa: W605 E501 also WTF!! Eat shit
                                                           " vine training,"
@@ -163,7 +169,7 @@ class WineRegion(Region):
     sub_regional_classifications = models.TextField(blank=True,
                                                     help_text="Vineyards, "
                                                     "villages, producers")
-    major_producers = models.ManyToManyField(Producer,
+    major_producers = models.ManyToManyField(Producer, blank=True,
                                              help_text="At least 5, "
                                              "what makes them unique, "
                                              "sig cuvees, historical lore")

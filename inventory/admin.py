@@ -39,22 +39,27 @@ class SubRegionAdmin(admin.ModelAdmin):
 
 @admin.register(im.Region)
 class RegionAdmin(admin.ModelAdmin):
-    list_display = ['name', 'area', 'all_subregions']
+    list_display = ['name', 'area', 'all_sub_regions']
 
-    def all_subregions(self, obj):
+    def all_sub_regions(self, obj):
         return ', '.join([sr.name for sr in obj.sub_regions.all()])
 
 
 @admin.register(im.Producer)
 class ProducerAdmin(admin.ModelAdmin):
-    list_display = ['name', 'category']
+    list_display = ['category', 'name', 'location']
+    list_display_links = ['name']
+    list_filter = ['category']
+
+    def location(self, obj):
+        return ', '.join([r.name for r in obj.regions.all()])
 
 
 @admin.register(im.WineRegion)
 class WineRegionAdmin(admin.ModelAdmin):
-    list_display = ['name', 'area', 'all_subregions']
+    list_display = ['name', 'area', 'all_sub_regions']
 
-    def all_subregions(self, obj):
+    def all_sub_regions(self, obj):
         return ', '.join([sr.name for sr in obj.sub_regions.all()])
 
 
@@ -92,7 +97,7 @@ class SpiritOrderItemAdmin(admin.ModelAdmin):
                     'distributor', 'price_per_unit',
                     'current_inventory', 'item_par',
                     'all_categories', 'needs_ordering', 'last_updated_at']
-    list_filter = ['area_categories__name', 'distributor__name',
+    list_filter = ['distributor__name', 'category',
                    'needs_ordering']
     list_editable = ['needs_ordering']
     search_fields = ['name', 'description']
