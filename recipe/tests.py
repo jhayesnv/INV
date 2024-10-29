@@ -29,8 +29,8 @@ class RecipeTestCase(TestCase):
             distributor=distributor
         )
 
-        item_A.categories.set([category])
-        item_B.categories.set([category])
+        item_A.area_categories.set([category])
+        item_B.area_categories.set([category])
 
         kitchen_recipe = rm.KitchenRecipe.objects.create(
             name='Asian Vinaigrette'

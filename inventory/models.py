@@ -246,6 +246,9 @@ class BeerOrderItem(BaseInventoryItem):
     unit = models.CharField(max_length=9,
                             choices=UNIT_CHOICES,
                             default='keg')
+    format = models.CharField(max_length=7,
+                              choices=FORMAT_CHOICES,
+                              default='Draft')
     producer = models.ForeignKey(Producer, on_delete=models.CASCADE)
     region = models.ForeignKey(Region,
                                on_delete=models.SET_NULL,
