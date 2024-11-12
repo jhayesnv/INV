@@ -211,6 +211,8 @@ class WineOrderItem(BaseInventoryItem):
     style = models.CharField(max_length=9,
                              choices=STYLE_CHOICES,
                              default='Red')
+    menu_price = models.DecimalField(max_digits=5, decimal_places=2,
+                                     default=0.0)
 
 
 class SpiritOrderItem(BaseInventoryItem):
@@ -230,6 +232,8 @@ class SpiritOrderItem(BaseInventoryItem):
                                on_delete=models.SET_NULL,
                                null=True,
                                blank=True)
+    menu_price = models.DecimalField(max_digits=5, decimal_places=2,
+                                     default=0.0)
 
 
 class BeerOrderItem(BaseInventoryItem):
@@ -254,3 +258,5 @@ class BeerOrderItem(BaseInventoryItem):
                                on_delete=models.SET_NULL,
                                null=True,
                                blank=True)
+    menu_price = models.DecimalField(max_digits=5, decimal_places=2,
+                                     default=0.0)
