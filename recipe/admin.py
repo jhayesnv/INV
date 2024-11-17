@@ -5,7 +5,9 @@ from . import models as rm
 
 @admin.register(rm.KitchenRecipe)
 class KitchenRecipeAdmin(admin.ModelAdmin):
-    pass
+    list_display = ['name']
+    list_filter = ['ingredients__name']
+    search_fields = ['name', 'description']
 
 
 @admin.register(rm.MenuItemRecipe)
@@ -21,7 +23,9 @@ class MenuItemRecipe(admin.ModelAdmin):
 
 @admin.register(rm.BarRecipe)
 class BarRecipeAdmin(admin.ModelAdmin):
-    pass
+    list_display = ['name']
+    list_filter = ['ingredients__name']
+    search_fields = ['name', 'description']
 
 
 @admin.register(rm.CocktailRecipe)

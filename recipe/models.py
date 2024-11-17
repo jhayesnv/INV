@@ -29,21 +29,21 @@ class BaseRecipe(models.Model):
 
 class KitchenRecipe(BaseRecipe):
     """ Recipes relating to the kitchen """
-    ingredients = models.ManyToManyField(im.FoodOrderItem)
+    ingredients = models.ManyToManyField(im.FoodOrderItem, blank=True)
     is_gluten_free = models.BooleanField(default=False)
     is_vegetarian = models.BooleanField(default=False)
 
 
 class MenuItemRecipe(BaseRecipe):
     """ Aggregate recipes for menu items """
-    recipes = models.ManyToManyField(KitchenRecipe)
+    recipes = models.ManyToManyField(KitchenRecipe, blank=True)
     is_brunch = models.BooleanField(default=False)
     is_social_hour = models.BooleanField(default=False)
 
 
 class BarRecipe(BaseRecipe):
     """ Recipes relating to the bar """
-    ingredients = models.ManyToManyField(im.FoodOrderItem)
+    ingredients = models.ManyToManyField(im.FoodOrderItem, blank=True)
 
 
 class CocktailRecipe(BaseRecipe):
@@ -64,6 +64,6 @@ class CocktailRecipe(BaseRecipe):
                               choices=METHOD_CHOICES,
                               default='Shake/Strain')
     glassware = models.CharField(max_length=50, blank=True)
-    bar_ingredients = models.ManyToManyField(BarRecipe)
-    spirit_ingredients = models.ManyToManyField(im.SpiritOrderItem)
+    bar_ingredients = models.ManyToManyField(BarRecipe, blank=True)
+    spirit_ingredients = models.ManyToManyField(im.SpiritOrderItem, blank=True)
     garnish = models.CharField(max_length=50, blank=True)

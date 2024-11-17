@@ -213,6 +213,8 @@ class WineOrderItem(BaseInventoryItem):
                              default='Red')
     menu_price = models.DecimalField(max_digits=5, decimal_places=2,
                                      default=0.0)
+    is_active = models.BooleanField(default=False)
+    is_glass_pour = models.BooleanField(default=True)
 
 
 class SpiritOrderItem(BaseInventoryItem):
@@ -234,6 +236,8 @@ class SpiritOrderItem(BaseInventoryItem):
                                blank=True)
     menu_price = models.DecimalField(max_digits=5, decimal_places=2,
                                      default=0.0)
+    is_well = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
 
 
 class BeerOrderItem(BaseInventoryItem):
@@ -260,3 +264,4 @@ class BeerOrderItem(BaseInventoryItem):
                                blank=True)
     menu_price = models.DecimalField(max_digits=5, decimal_places=2,
                                      default=0.0)
+    is_active = models.BooleanField(default=True)

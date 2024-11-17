@@ -67,7 +67,7 @@ class WineRegionAdmin(admin.ModelAdmin):
 class WineOrderItemAdmin(admin.ModelAdmin):
     list_display = ['full_wine_name', 'style',
                     'distributor', 'price_per_unit',
-                    'current_inventory', 'item_par',
+                    'menu_price', 'current_inventory', 'item_par',
                     'all_categories', 'needs_ordering', 'last_updated_at']
     list_filter = ['area_categories__name', 'distributor__name',
                    'needs_ordering']
@@ -95,7 +95,7 @@ class WineOrderItemAdmin(admin.ModelAdmin):
 class SpiritOrderItemAdmin(admin.ModelAdmin):
     list_display = ['producer', 'name', 'category',
                     'distributor', 'price_per_unit',
-                    'current_inventory', 'item_par',
+                    'menu_price', 'current_inventory', 'item_par',
                     'all_categories', 'needs_ordering', 'last_updated_at']
     list_filter = ['distributor__name', 'category',
                    'needs_ordering']
@@ -123,7 +123,7 @@ class SpiritOrderItemAdmin(admin.ModelAdmin):
 class BeerOrderItemAdmin(admin.ModelAdmin):
     list_display = ['producer', 'name',
                     'distributor', 'price_per_unit',
-                    'current_inventory', 'item_par',
+                    'menu_price', 'current_inventory', 'item_par',
                     'all_categories', 'needs_ordering', 'last_updated_at']
     list_filter = ['area_categories__name', 'distributor__name',
                    'needs_ordering']
