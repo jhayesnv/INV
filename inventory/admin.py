@@ -1,3 +1,5 @@
+from decimal import Decimal
+
 from django.contrib import admin
 
 from . import models as im
@@ -95,8 +97,9 @@ class WineOrderItemAdmin(admin.ModelAdmin):
 class SpiritOrderItemAdmin(admin.ModelAdmin):
     list_display = ['producer', 'name', 'category',
                     'distributor', 'price_per_unit',
-                    'menu_price', 'current_inventory', 'item_par',
-                    'all_categories', 'needs_ordering', 'last_updated_at']
+                    'menu_price_per_serving', 'current_inventory', 'cost',
+                    'item_par', 'all_categories', 'needs_ordering',
+                    'last_updated_at']
     list_filter = ['distributor__name', 'category',
                    'needs_ordering']
     list_editable = ['needs_ordering']
@@ -104,10 +107,18 @@ class SpiritOrderItemAdmin(admin.ModelAdmin):
     sortable_by = ['name', 'last_updated_at', 'distributor', 'categories']
 
     def full_wine_name(self, obj):
-        return f'${obj.vintage} {obj.producer} {obj.name}'
+        return f'{obj.vintage} {obj.producer} {obj.name}'
+
+    def menu_price_per_serving(self, obj):
+        return f'${obj.menu_price}'
 
     def price_per_unit(self, obj):
         return f'${obj.latest_price}'
+
+    def cost(self, obj):
+        if not obj.is_one_ounce_pour:
+            return f'{obj.menu_price / (Decimal(12.7)/obj.latest_price):.2f}%'
+        return f'{obj.menu_price / (Decimal(25.4)/obj.latest_price):.2f}%'
 
     def item_par(self, obj):
         return f'{obj.par} {obj.unit}'

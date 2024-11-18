@@ -1,0 +1,8 @@
+{% if out_of_stock_items %}
+<h1 class="font-bold">Out of Stock Items</h1>
+<h2>Spirits</h2>
+{% for liquor in out_of_stock_items.spirits %}
+<p>{{ liquor.producer.name }} {{ liquor.name }}</p>
+{% endfor %}
+
+{% endif %}

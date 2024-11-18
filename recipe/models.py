@@ -39,6 +39,7 @@ class MenuItemRecipe(BaseRecipe):
     recipes = models.ManyToManyField(KitchenRecipe, blank=True)
     is_brunch = models.BooleanField(default=False)
     is_social_hour = models.BooleanField(default=False)
+    is_available = models.BooleanField(default=True)
 
 
 class BarRecipe(BaseRecipe):

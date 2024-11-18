@@ -215,6 +215,7 @@ class WineOrderItem(BaseInventoryItem):
                                      default=0.0)
     is_active = models.BooleanField(default=False)
     is_glass_pour = models.BooleanField(default=True)
+    is_available = models.BooleanField(default=True)
 
 
 class SpiritOrderItem(BaseInventoryItem):
@@ -238,6 +239,8 @@ class SpiritOrderItem(BaseInventoryItem):
                                      default=0.0)
     is_well = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
+    is_available = models.BooleanField(default=True)
+    is_one_ounce_pour = models.BooleanField(default=False)
 
 
 class BeerOrderItem(BaseInventoryItem):
@@ -265,3 +268,4 @@ class BeerOrderItem(BaseInventoryItem):
     menu_price = models.DecimalField(max_digits=5, decimal_places=2,
                                      default=0.0)
     is_active = models.BooleanField(default=True)
+    is_available = models.BooleanField(default=True)
