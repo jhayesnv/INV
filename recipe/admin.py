@@ -12,10 +12,11 @@ class KitchenRecipeAdmin(admin.ModelAdmin):
 
 @admin.register(rm.MenuItemRecipe)
 class MenuItemRecipe(admin.ModelAdmin):
-    list_display = ['name', 'all_recipes', 'is_brunch', 'is_social_hour']
+    list_display = ['name', 'all_recipes', 'is_brunch', 'is_social_hour',
+                    'is_available']
     list_filter = ['recipes__name']
     search_fields = ['name', 'description', 'recipes__name']
-    list_editable = ['is_brunch', 'is_social_hour']
+    list_editable = ['is_brunch', 'is_social_hour', 'is_available']
 
     def all_recipes(self, obj):
         return ', '.join([r.name for r in obj.recipes.all()])

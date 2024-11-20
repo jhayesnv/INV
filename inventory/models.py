@@ -5,7 +5,8 @@ from distributor.models import Distributor
 
 from app.utils.model_helpers import (REGION_AREA_CHOICES,
                                      FOOD_ORDER_ITEM_UNIT_CHOICES,
-                                     BASE_SPIRIT_CHOICES)
+                                     BASE_SPIRIT_CHOICES,
+                                     BEER_STYLE_AREA_CHOICES)
 
 
 class Category(models.Model):
@@ -204,6 +205,36 @@ class SpiritOrderItem(BaseInventoryItem):
     is_one_ounce_pour = models.BooleanField(default=False)
 
 
+class BeerStyleCategory(models.Model):
+    id = models.UUIDField(
+        primary_key=True,
+        default=uuid4,
+        editable=False
+    )
+    name = models.CharField(max_length=50)
+    description = models.TextField(blank=True)
+
+    def __str__(self):
+        return self.name
+
+
+class BeerStyle(models.Model):
+    id = models.UUIDField(
+        primary_key=True,
+        default=uuid4,
+        editable=False
+    )
+    name = models.CharField(max_length=50)
+    description = models.TextField(blank=True)
+    category = models.ForeignKey(BeerStyleCategory, on_delete=models.CASCADE)
+    area = models.CharField(max_length=30,
+                            choices=BEER_STYLE_AREA_CHOICES,
+                            default='Other')
+
+    def __str__(self):
+        return self.name
+
+
 class BeerOrderItem(BaseInventoryItem):
     """ All Beer related entities """
     UNIT_CHOICES = [
@@ -230,6 +261,7 @@ class BeerOrderItem(BaseInventoryItem):
                                    on_delete=models.SET_NULL,
                                    null=True,
                                    blank=True)
+    style = models.ForeignKey(BeerStyle, on_delete=models.CASCADE)
     menu_price = models.DecimalField(max_digits=5, decimal_places=2,
                                      default=0.0)
     is_active = models.BooleanField(default=True)

@@ -87,7 +87,7 @@ class WineOrderItemAdmin(admin.ModelAdmin):
 
     def cost(self, obj):
         if not obj.is_glass_pour:
-            return f'{obj.latest_price / obj.menu_price:.2f}%'
+            return f'{(obj.latest_price / obj.menu_price)*100:.2f}%'
         # account for ~5% loss; latest price per bottle
         return f'{((obj.latest_price / Dec(4.0))/obj.menu_price)*100:.2f}%'
 
@@ -136,6 +136,16 @@ class SpiritOrderItemAdmin(admin.ModelAdmin):
 
     def all_categories(self, obj):
         return ', '.join([c.name for c in obj.area_categories.all()])
+
+
+@admin.register(im.BeerStyleCategory)
+class BeerStyleCategoryAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(im.BeerStyle)
+class BeerStyleAdmin(admin.ModelAdmin):
+    pass
 
 
 @admin.register(im.BeerOrderItem)

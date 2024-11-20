@@ -111,3 +111,17 @@ BASE_SPIRIT_CHOICES = [
     ('Other', 'Other'),
     ('Split', 'Split'),
 ]
+
+BEER_STYLE_AREA_CHOICES = [
+        ('Belgium/France', 'Belgium/France'),
+        ('England', 'England'),
+        ('Scotland', 'Scotland'),
+        ('Ireland', 'Ireland'),
+        ('Germany/Czech Republic/Austria', 'Germany/Czech Republic/Austria'),
+        ('United States', 'United States'),
+        ('International', 'International'),
+        ('Australia', 'Australia'),
+        ('Poland', 'Poland'),
+        ('Scandinavia', 'Scandinavia'),
+        ('Other', 'Other')
+]

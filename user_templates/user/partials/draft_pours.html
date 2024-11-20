@@ -1,0 +1,7 @@
+{% if draft_pours %}
+<h1 class="font-bold">Draft Beer Pours</h1>
+{% for beer in draft_pours %}
+<p>{{ beer.producer.name }} "{{ beer.name }}"</p>
+{% endfor %}
+
+{% endif %}

@@ -4,9 +4,24 @@
 {% block main %}
 
 <!-- well pours -->
-{% include 'user/partials/well_pours.html' %}
+<div class="my-3">
+    {% include 'user/partials/well_pours.html' %}
+</div>
+
+<!-- glass pours -->
+<div class="my-3">
+    {% include 'user/partials/glass_pours.html' %}
+</div>
+
+<!-- draft pours -->
+<div class="my-3">
+    {% include 'user/partials/draft_pours.html' %}
+</div>
+
 
 <!-- out of stock items -->
-{% include 'user/partials/out_of_stock_items.html' %}
+<div class="my-3">
+    {% include 'user/partials/out_of_stock_items.html' %}
+</div>
 
 {% endblock main %}
