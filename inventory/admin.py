@@ -1,4 +1,4 @@
-from decimal import Decimal
+from decimal import Decimal as Dec
 
 from django.contrib import admin
 
@@ -47,6 +47,11 @@ class RegionAdmin(admin.ModelAdmin):
         return ', '.join([sr.name for sr in obj.sub_regions.all()])
 
 
+@admin.register(im.Grape)
+class GrapeAdmin(admin.ModelAdmin):
+    pass
+
+
 @admin.register(im.Producer)
 class ProducerAdmin(admin.ModelAdmin):
     list_display = ['category', 'name', 'location']
@@ -57,52 +62,17 @@ class ProducerAdmin(admin.ModelAdmin):
         return ', '.join([r.name for r in obj.regions.all()])
 
 
-@admin.register(im.WineRegion)
-class WineRegionAdmin(admin.ModelAdmin):
-    list_display = ['name', 'area', 'all_sub_regions']
-
-    def all_sub_regions(self, obj):
-        return ', '.join([sr.name for sr in obj.sub_regions.all()])
-
-
 @admin.register(im.WineOrderItem)
 class WineOrderItemAdmin(admin.ModelAdmin):
     list_display = ['full_wine_name', 'style',
                     'distributor', 'price_per_unit',
-                    'menu_price', 'current_inventory', 'item_par',
-                    'all_categories', 'needs_ordering', 'last_updated_at']
-    list_filter = ['area_categories__name', 'distributor__name',
-                   'needs_ordering']
-    list_editable = ['needs_ordering']
-    search_fields = ['name', 'description']
-    sortable_by = ['name', 'last_updated_at', 'distributor', 'categories']
-
-    def full_wine_name(self, obj):
-        return f'${obj.vintage} {obj.producer} {obj.name}'
-
-    def price_per_unit(self, obj):
-        return f'${obj.latest_price}'
-
-    def item_par(self, obj):
-        return f'{obj.par} {obj.unit}'
-
-    def current_inventory(self, obj):
-        return f'{obj.quantity_on_hand} {obj.unit}'
-
-    def all_categories(self, obj):
-        return ', '.join([c.name for c in obj.area_categories.all()])
-
-
-@admin.register(im.SpiritOrderItem)
-class SpiritOrderItemAdmin(admin.ModelAdmin):
-    list_display = ['producer', 'name', 'category',
-                    'distributor', 'price_per_unit',
-                    'menu_price_per_serving', 'current_inventory', 'cost',
+                    'menu_price_per_serving', 'cost', 'current_inventory',
                     'item_par', 'all_categories', 'needs_ordering',
-                    'last_updated_at']
-    list_filter = ['distributor__name', 'category',
-                   'needs_ordering']
-    list_editable = ['needs_ordering']
+                    'last_updated_at', 'is_glass_pour', 'is_available',
+                    'is_active']
+    list_filter = ['area_categories__name', 'distributor__name',
+                   'needs_ordering', 'is_glass_pour']
+    list_editable = ['needs_ordering', 'is_available', 'is_active']
     search_fields = ['name', 'description']
     sortable_by = ['name', 'last_updated_at', 'distributor', 'categories']
 
@@ -116,9 +86,47 @@ class SpiritOrderItemAdmin(admin.ModelAdmin):
         return f'${obj.latest_price}'
 
     def cost(self, obj):
+        if not obj.is_glass_pour:
+            return f'{obj.latest_price / obj.menu_price:.2f}%'
+        # account for ~5% loss; latest price per bottle
+        return f'{((obj.latest_price / Dec(4.0))/obj.menu_price)*100:.2f}%'
+
+    def item_par(self, obj):
+        return f'{obj.par} {obj.unit}'
+
+    def current_inventory(self, obj):
+        return f'{obj.quantity_on_hand} {obj.unit}'
+
+    def all_categories(self, obj):
+        return ', '.join([c.name for c in obj.area_categories.all()])
+
+
+@admin.register(im.SpiritOrderItem)
+class SpiritOrderItemAdmin(admin.ModelAdmin):
+    list_display = ['full_spirit_name', 'category',
+                    'distributor', 'price_per_unit',
+                    'menu_price_per_serving', 'cost', 'current_inventory',
+                    'item_par', 'all_categories', 'needs_ordering',
+                    'last_updated_at', 'is_available', 'is_active']
+    list_filter = ['distributor__name', 'category', 'needs_ordering']
+    list_editable = ['needs_ordering', 'is_available', 'is_active']
+    search_fields = ['name', 'description']
+    sortable_by = ['name', 'last_updated_at', 'distributor', 'categories']
+
+    def full_spirit_name(self, obj):
+        return f'{obj.producer} {obj.name}'
+
+    def menu_price_per_serving(self, obj):
+        return f'${obj.menu_price}'
+
+    def price_per_unit(self, obj):
+        return f'${obj.latest_price}'
+
+    def cost(self, obj):
         if not obj.is_one_ounce_pour:
-            return f'{obj.menu_price / (Decimal(12.7)/obj.latest_price):.2f}%'
-        return f'{obj.menu_price / (Decimal(25.4)/obj.latest_price):.2f}%'
+            # account for 1-2 oz. pours with ~5% loss; bottle latest price
+            return f'{((obj.latest_price/Dec(12.0)/obj.menu_price))*100:.2f}%'
+        return f'{((obj.latest_price/Dec(24.0)/obj.menu_price))*100:.2f}%'
 
     def item_par(self, obj):
         return f'{obj.par} {obj.unit}'
@@ -132,21 +140,31 @@ class SpiritOrderItemAdmin(admin.ModelAdmin):
 
 @admin.register(im.BeerOrderItem)
 class BeerOrderItemAdmin(admin.ModelAdmin):
-    list_display = ['producer', 'name',
+    list_display = ['full_beer_name',
                     'distributor', 'price_per_unit',
-                    'menu_price', 'current_inventory', 'item_par',
-                    'all_categories', 'needs_ordering', 'last_updated_at']
+                    'menu_price_per_serving', 'cost', 'current_inventory',
+                    'item_par', 'all_categories', 'needs_ordering',
+                    'last_updated_at', 'is_available', 'is_active']
     list_filter = ['area_categories__name', 'distributor__name',
                    'needs_ordering']
-    list_editable = ['needs_ordering']
+    list_editable = ['needs_ordering', 'is_available', 'is_active']
     search_fields = ['name', 'description']
     sortable_by = ['name', 'last_updated_at', 'distributor', 'categories']
 
-    def full_wine_name(self, obj):
-        return f'${obj.vintage} {obj.producer} {obj.name}'
+    def full_beer_name(self, obj):
+        return f'{obj.producer} {obj.name}'
+
+    def menu_price_per_serving(self, obj):
+        return f'${obj.menu_price}'
 
     def price_per_unit(self, obj):
         return f'${obj.latest_price}'
+
+    def cost(self, obj):
+        if obj.format != 'Draft':
+            return f'{(obj.latest_price / obj.menu_price) * 100:.2f}%'
+        # account for 124 16 oz. pours with loss at ~10%; keg latest price
+        return f'{((obj.latest_price / Dec(110.0)) / obj.menu_price)*100:.2f}%'
 
     def item_par(self, obj):
         return f'{obj.par} {obj.unit}'

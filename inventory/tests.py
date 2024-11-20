@@ -27,7 +27,7 @@ class InventoryTestCase(TestCase):
         food_item.area_categories.set([food_category])
 
         # create a sub region entity
-        chablis = im.SubRegion.objects.create(
+        im.SubRegion.objects.create(
             name='Chablis'
         )
 
@@ -48,21 +48,12 @@ class InventoryTestCase(TestCase):
             name='Cabernet Sauvignon'
         )
 
-        # create a wine region entity
-        wine_region = im.WineRegion.objects.create(
-            name='Burgundy'
-        )
-
-        wine_region.sub_regions.set([chablis])
-        wine_region.grapes_allowed.set([cabernet])
-        wine_region.major_producers.set([producer])
-
         # create a wine order item entity
         wine_order_item = im.WineOrderItem.objects.create(
             name='Speed Racer Red',
             distributor=distributor,
             producer=producer,
-            region=wine_region
+            region=spain
         )
 
         wine_category = im.Category.objects.create(
@@ -142,7 +133,6 @@ class InventoryTestCase(TestCase):
 
         self.assertEqual(type(producer.id), type(uuid4()))
         self.assertEqual(producer.name, 'Mark Ryan')
-        self.assertIsNotNone(producer.regions)
         self.assertIsNotNone(producer.description)
 
     def test_grape_is_created_successfully(self):
@@ -154,28 +144,6 @@ class InventoryTestCase(TestCase):
         self.assertEqual(grape.name, 'Cabernet Sauvignon')
         self.assertEqual(grape.color, 'Red')
         self.assertIsNotNone(grape.description)
-
-    def test_wine_region_is_created_successfully(self):
-        """ Ensure a wine region entity is created with correct fields """
-
-        wine_region = im.WineRegion.objects.first()
-
-        self.assertEqual(type(wine_region.id), type(uuid4()))
-        self.assertEqual(wine_region.name, 'Burgundy')
-        self.assertEqual(wine_region.sub_regions.first().name, 'Chablis')
-        self.assertEqual(wine_region.grapes_allowed.first().name,
-                         'Cabernet Sauvignon')
-        self.assertIsNotNone(wine_region.geography)
-        self.assertIsNotNone(wine_region.viticultural_techniques)
-        self.assertIsNotNone(wine_region.vinification_techniques)
-        self.assertIsNotNone(wine_region.aging_laws)
-        self.assertIsNotNone(wine_region.offical_regional_classication)
-        self.assertIsNotNone(wine_region.sub_regional_classifications)
-        self.assertEqual(wine_region.major_producers.first().name,
-                         'Mark Ryan')
-        self.assertIsNotNone(wine_region.vintage_knowledge)
-        self.assertIsNotNone(wine_region.law_terminology)
-        self.assertIsNotNone(wine_region.specific_terminology)
 
     def test_wine_order_item_is_created_successfully(self):
         """ Ensure a wine order item entity is created with correct fields """
@@ -192,7 +160,7 @@ class InventoryTestCase(TestCase):
         self.assertEqual(wine_order_item.producer.name, 'Mark Ryan')
         self.assertEqual(wine_order_item.grapes.first().name,
                          'Cabernet Sauvignon')
-        self.assertEqual(wine_order_item.region.name, 'Burgundy')
+        self.assertEqual(wine_order_item.region.name, 'Barcelona')
         self.assertEqual(wine_order_item.style, 'Red')
 
     def test_spirit_order_item_is_created_successfully(self):

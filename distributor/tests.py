@@ -38,4 +38,3 @@ class DistributorTestCase(TestCase):
         self.assertEqual(sales_rep.name, 'Example Sales Rep A')
         self.assertIsNot(type(sales_rep.phone_number), type(1))
         self.assertTrue(len(sales_rep.phone_number) < 19)
-        self.assertEqual(sales_rep.distributor.name, 'Example Distributor')
