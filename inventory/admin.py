@@ -54,12 +54,9 @@ class GrapeAdmin(admin.ModelAdmin):
 
 @admin.register(im.Producer)
 class ProducerAdmin(admin.ModelAdmin):
-    list_display = ['category', 'name', 'location']
+    list_display = ['name', 'category']
     list_display_links = ['name']
     list_filter = ['category']
-
-    def location(self, obj):
-        return ', '.join([r.name for r in obj.regions.all()])
 
 
 @admin.register(im.WineOrderItem)

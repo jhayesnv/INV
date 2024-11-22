@@ -2,26 +2,29 @@
 
 
 {% block main %}
-
-<!-- well pours -->
-<div class="my-3">
-    {% include 'user/partials/well_pours.html' %}
-</div>
-
-<!-- glass pours -->
-<div class="my-3">
-    {% include 'user/partials/glass_pours.html' %}
-</div>
-
-<!-- draft pours -->
-<div class="my-3">
-    {% include 'user/partials/draft_pours.html' %}
-</div>
-
-
-<!-- out of stock items -->
-<div class="my-3">
-    {% include 'user/partials/out_of_stock_items.html' %}
+<div class="container-fluid mt-3 mx-auto">
+    <div class="row text-center">
+        <!-- out of stock items -->
+        <div class="col my-3">
+            {% include 'user/partials/out_of_stock_items.html' %}
+        </div>
+        <!-- well pours, glass pours, draft pours -->
+        <div class="col my-3">
+            {% include 'user/partials/well_pours.html' %}
+            {% include 'user/partials/glass_pours.html' %}
+            {% include 'user/partials/draft_pours.html' %}
+        </div>
+    </div>
+    <hr>
+    <!-- Events, updates, etc. -->
+    <div class="row my-3 text-center">
+        <h4>Updates</h4>
+        <ol>
+            <li>Update 1</li>
+            <li>Update 2</li>
+            <li>Update 3</li>
+        </ol>
+    </div>
 </div>
 
 {% endblock main %}

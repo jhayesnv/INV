@@ -1,7 +1,16 @@
-<h1 class="font-bold">Out of Stock Items</h1>
+<h4>Out of Stock Items</h4>
 
 {% if out_of_stock_items.spirits %}
-<h2 class="italic">Spirits</h2>
+<div class="my-3">
+    {% if out_of_stock_items.food %}
+    <p class="h6">Food</p>
+    {% for item in out_of_stock_items.food %}
+    <p>{{ item.name }}</p>
+    {% endfor %}
+    {% endif %}
+</div>
+
+<p class="h6 my-3">Spirits</p>
 {% for liquor in out_of_stock_items.spirits %}
 <p>{{ liquor.producer.name }} {{ liquor.name }}</p>
 {% endfor %}
@@ -9,16 +18,16 @@
 
 <div class="my-3">
     {% if out_of_stock_items.wine %}
-    <h2 class="italic">Wine</h2>
+    <p class="h6">Wine</p>
     {% for wine in out_of_stock_items.wine %}
-    <p>{{ wine.producer.name }} {{ wine.name }}</p>
+    <p>{{ wine.producer.name }} "{{ wine.name }}"</p>
     {% endfor %}
     {% endif %}
 </div>
 
 <div class="my-3">
     {% if out_of_stock_items.beer %}
-    <h2 class="italic">Beer</h2>
+    <p class="h6">Beer</p>
     {% for beer in out_of_stock_items.beer %}
     <p>{{ beer.producer.name }} {{ beer.name }}</p>
     {% endfor %}

@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'distributor',
     'inventory',
     'recipe',
+    'user',
 ]
 
 MIDDLEWARE = [
@@ -122,6 +123,9 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Use custom user model (Employee)
+AUTH_USER_MODEL = 'user.Employee'
 
 # REST Framework
 REST_FRAMEWORK = {
