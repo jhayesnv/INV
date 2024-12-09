@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.shortcuts import render
 
@@ -44,6 +45,7 @@ def get_out_of_stock_items():
     return aggregate_items
 
 
+@login_required(login_url='/accounts/login/')
 def user_home_view(request):
     context = {
         'well_pours': get_well_pours(),

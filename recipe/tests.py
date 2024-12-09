@@ -37,23 +37,21 @@ class RecipeTestCase(TestCase):
         item_A.area_categories.set([category])
         item_B.area_categories.set([category])
 
-        kitchen_recipe = rm.KitchenRecipe.objects.create(
-            name='Asian Vinaigrette'
+        backup_recipe = rm.BackUpRecipe.objects.create(
+            name='Asian Vinaigrette',
+            ingredient_1=item_A,
+            ingredient_2=item_B
         )
 
-        kitchen_recipe.ingredients.set([item_A, item_B])
-
-        menu_item = rm.MenuItemRecipe.objects.create(
-            name='Stuffed Squid'
+        rm.MenuItemRecipe.objects.create(
+            name='Stuffed Squid',
+            backup_recipe_1=backup_recipe
         )
-
-        menu_item.recipes.set([kitchen_recipe])
 
         simple = rm.BarRecipe.objects.create(
-            name='Simple Syrup'
+            name='Simple Syrup',
+            ingredient_1=item_C
         )
-
-        simple.ingredients.set([item_C])
 
         producer = im.Producer.objects.create(
             name="Michter's",
@@ -70,12 +68,11 @@ class RecipeTestCase(TestCase):
             region=region
         )
 
-        cocktail_item = rm.CocktailRecipe.objects.create(
-            name='Old Fashioned'
+        rm.CocktailRecipe.objects.create(
+            name='Old Fashioned',
+            food_ingredient_1=simple,
+            spirit_ingredient_1=whiskey
         )
-
-        cocktail_item.bar_ingredients.set([simple])
-        cocktail_item.spirit_ingredients.set([whiskey])
 
     def test_menu_order_item_is_created_successfully(self):
         """ Ensure a menu item recipe is created with correct fields """
@@ -83,9 +80,8 @@ class RecipeTestCase(TestCase):
 
         self.assertEqual(type(menu_item.id), type(uuid4()))
         self.assertEqual(menu_item.name, 'Stuffed Squid')
-        self.assertEqual(menu_item.recipes.first().name,
+        self.assertEqual(menu_item.backup_recipe_1.name,
                          'Asian Vinaigrette')
-        self.assertTrue(len(menu_item.recipes.all()), 2)
 
     def test_cocktail_recipe_is_created_successfully(self):
         """ Ensure a cocktail recipe entity is created with correct fields """
@@ -97,5 +93,4 @@ class RecipeTestCase(TestCase):
         self.assertEqual(cocktail.category, 'Levitate Menu')
         self.assertEqual(cocktail.base_spirit, 'Bourbon')
         self.assertEqual(cocktail.method, 'Shake/Strain')
-        self.assertIsNotNone(cocktail.spirit_ingredients)
         self.assertIsNotNone(cocktail.garnish)

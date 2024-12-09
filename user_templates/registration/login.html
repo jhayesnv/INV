@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+
+{% block main %}
+<div class="container form-container text-center my-3 py-3">
+    <p class="lead">Employee Login</p>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="input-group my-3">
+            <input type="input" class="form-control" name="username" id="inputEmail" placeholder="Username" required>
+        </div>
+        <div class="input-group my-3">
+            <input type="password" class="form-control" name="password" id="inputPass" placeholder="Password" required>
+        </div>
+
+        <div class="my-3">
+            <button class="btn btn-sm btn-secondary px-2 fs-6" type="submit">Submit</button>
+        </div>
+    </form>
+</div>
+
+{% endblock main %}
