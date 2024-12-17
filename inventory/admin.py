@@ -10,6 +10,11 @@ class CategoryAdmin(admin.ModelAdmin):
     pass
 
 
+@admin.register(im.Update)
+class UpdateAdmin(admin.ModelAdmin):
+    pass
+
+
 @admin.register(im.FoodOrderItem)
 class FoodOrderItemAdmin(admin.ModelAdmin):
     list_display = ['name', 'distributor', 'price_per_unit',
@@ -64,10 +69,10 @@ class WineOrderItemAdmin(admin.ModelAdmin):
     list_display = ['full_wine_name', 'style',
                     'distributor', 'price_per_unit',
                     'menu_price_per_serving', 'cost', 'current_inventory',
-                    'item_par', 'all_categories', 'needs_ordering',
+                    'item_par', 'needs_ordering',
                     'last_updated_at', 'is_glass_pour', 'is_available',
                     'is_active']
-    list_filter = ['area_categories__name', 'distributor__name',
+    list_filter = ['distributor__name',
                    'needs_ordering', 'is_glass_pour']
     list_editable = ['needs_ordering', 'is_available', 'is_active']
     search_fields = ['name', 'description']
@@ -94,16 +99,13 @@ class WineOrderItemAdmin(admin.ModelAdmin):
     def current_inventory(self, obj):
         return f'{obj.quantity_on_hand} {obj.unit}'
 
-    def all_categories(self, obj):
-        return ', '.join([c.name for c in obj.area_categories.all()])
-
 
 @admin.register(im.SpiritOrderItem)
 class SpiritOrderItemAdmin(admin.ModelAdmin):
     list_display = ['full_spirit_name', 'category',
                     'distributor', 'price_per_unit',
                     'menu_price_per_serving', 'cost', 'current_inventory',
-                    'item_par', 'all_categories', 'needs_ordering',
+                    'item_par', 'needs_ordering',
                     'last_updated_at', 'is_available', 'is_active']
     list_filter = ['distributor__name', 'category', 'needs_ordering']
     list_editable = ['needs_ordering', 'is_available', 'is_active']
@@ -131,9 +133,6 @@ class SpiritOrderItemAdmin(admin.ModelAdmin):
     def current_inventory(self, obj):
         return f'{obj.quantity_on_hand} {obj.unit}'
 
-    def all_categories(self, obj):
-        return ', '.join([c.name for c in obj.area_categories.all()])
-
 
 @admin.register(im.BeerStyleCategory)
 class BeerStyleCategoryAdmin(admin.ModelAdmin):
@@ -150,9 +149,9 @@ class BeerOrderItemAdmin(admin.ModelAdmin):
     list_display = ['full_beer_name',
                     'distributor', 'price_per_unit',
                     'menu_price_per_serving', 'cost', 'current_inventory',
-                    'item_par', 'all_categories', 'needs_ordering',
+                    'item_par', 'needs_ordering',
                     'last_updated_at', 'is_available', 'is_active']
-    list_filter = ['area_categories__name', 'distributor__name',
+    list_filter = ['distributor__name',
                    'needs_ordering']
     list_editable = ['needs_ordering', 'is_available', 'is_active']
     search_fields = ['name', 'description']
@@ -178,6 +177,3 @@ class BeerOrderItemAdmin(admin.ModelAdmin):
 
     def current_inventory(self, obj):
         return f'{obj.quantity_on_hand} {obj.unit}'
-
-    def all_categories(self, obj):
-        return ', '.join([c.name for c in obj.area_categories.all()])

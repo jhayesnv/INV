@@ -1,7 +1,7 @@
 {% if draft_pours %}
-<h4>Draft Beer Pours</h4>
+<h5>Draft Beer Pours</h5>
 {% for beer in draft_pours %}
-<p>{{ beer.producer.name }} "{{ beer.name }}" {{ beer.style }}</p>
+<p class="lh-sm">{{ beer.producer.name }} "{{ beer.name }}" {{ beer.style }}</p>
 {% endfor %}
 
 {% endif %}

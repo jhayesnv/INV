@@ -3,27 +3,47 @@
 
 {% block main %}
 <div class="container-fluid mt-3 mx-auto">
-    <div class="row text-center">
-        <!-- out of stock items -->
-        <div class="col my-3">
-            {% include 'user/partials/out_of_stock_items.html' %}
-        </div>
+    <div class="row">
         <!-- well pours, glass pours, draft pours -->
-        <div class="col my-3">
-            {% include 'user/partials/well_pours.html' %}
-            {% include 'user/partials/glass_pours.html' %}
-            {% include 'user/partials/draft_pours.html' %}
+        <div class="col-sm my-3 text-center">
+            <div class="mb-5">
+                {% include 'user/partials/well_pours.html' %}
+            </div>
+            <div class="mb-5">
+                {% include 'user/partials/glass_pours.html' %}
+            </div>
+            <div class="mb-5">
+                {% include 'user/partials/draft_pours.html' %}
+            </div>
+        </div>
+        <!-- out of stock items -->
+        <div class="col-sm my-3 text-center">
+            <div class="mb-5">
+                {% include 'user/partials/out_of_stock_items.html' %}
+            </div>
+            <div class="mb-5">
+                {% include 'user/partials/update.html' %}
+            </div>
         </div>
     </div>
     <hr>
     <!-- Events, updates, etc. -->
-    <div class="row my-3 text-center">
-        <h4>Updates</h4>
-        <ol>
-            <li>Update 1</li>
-            <li>Update 2</li>
-            <li>Update 3</li>
-        </ol>
+    <div class="row my-3">
+        <!-- reservations/large parties -->
+        <div class="col-sm my-3">
+            <h5 class="mb-3 text-center">Reservations</h5>
+            <ol class="list-group list-group-numbered">
+                {% include 'user/partials/reservation.html' %}
+            </ol>
+        </div>
+        <!-- restaurant updates -->
+        <div class="col-sm my-3">
+            <h5 class="mb-3 text-center">Events</h5>
+            <ol class="list-group">
+                {% include 'user/partials/event.html' %}
+            </ol>
+        </div>
+
     </div>
 </div>
 

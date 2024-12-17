@@ -1,7 +1,10 @@
 {% if glass_pours %}
-<h4>Glass Wine Pours</h4>
+<h5 class="mb-3">Glass Wine Pours</h5>
 {% for wine in glass_pours %}
-<p>{{ wine.producer.name }} "{{ wine.name }}"{% for grape in wine.grapes.all %} - {{ grape.name }} {% endfor %}</p>
+<p class="lh-sm">
+    <span class="fw-bold">({{ wine.style }})</span> {{ wine.producer.name }}
+    "{{ wine.name }}" {% for grape in wine.grapes.all %}<span class="fw-bold">{{ grape.name }}</span>
+    {% endfor %}
+</p>
 {% endfor %}
-
 {% endif %}

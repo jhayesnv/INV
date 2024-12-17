@@ -181,6 +181,7 @@ class MenuItemRecipe(BaseRecipe):
     instruction_6 = models.TextField(blank=True)
     instruction_7 = models.TextField(blank=True)
     instruction_8 = models.TextField(blank=True)
+    image = models.ImageField(upload_to="recipe_images/", blank=True)
     is_brunch = models.BooleanField(default=False)
     is_social_hour = models.BooleanField(default=False)
     is_available = models.BooleanField(default=True)

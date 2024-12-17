@@ -34,6 +34,20 @@ class Category(models.Model):
         return self.name
 
 
+class Update(models.Model):
+    id = models.UUIDField(
+        primary_key=True,
+        default=uuid4,
+        editable=False
+    )
+    title = models.CharField(max_length=50)
+    description = models.TextField(blank=True)
+    submitted = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name
+
+
 class BaseInventoryItem(models.Model):
     """ Abstract model for inventory items """
     id = models.UUIDField(
@@ -48,7 +62,6 @@ class BaseInventoryItem(models.Model):
                                            default=0.0)
     distributor = models.ForeignKey(Distributor, on_delete=models.CASCADE)
     product_identifier = models.CharField(max_length=64, blank=True)
-    area_categories = models.ManyToManyField(Category)
     needs_ordering = models.BooleanField(default=False)
     latest_price = models.DecimalField(max_digits=5,
                                        decimal_places=2,
@@ -64,6 +77,14 @@ class BaseInventoryItem(models.Model):
 
 
 class FoodOrderItem(BaseInventoryItem):
+    area_categories = models.ManyToManyField(Category)
+    unit = models.CharField(max_length=9,
+                            choices=FOOD_ORDER_ITEM_UNIT_CHOICES,
+                            default='cs')
+
+
+class SupplyItem(BaseInventoryItem):
+    """ All non-food related restaurant items """
     unit = models.CharField(max_length=9,
                             choices=FOOD_ORDER_ITEM_UNIT_CHOICES,
                             default='cs')
@@ -112,6 +133,7 @@ class Producer(models.Model):
     category = models.CharField(max_length=7,
                                 choices=CATEGORY_CHOICES,
                                 default='Spirits')
+    year_established = models.CharField(max_length=4, blank=True)
 
     def __str__(self):
         return self.name
@@ -170,7 +192,7 @@ class WineOrderItem(BaseInventoryItem):
                              choices=STYLE_CHOICES,
                              default='Red')
     menu_price = models.DecimalField(max_digits=5, decimal_places=2,
-                                     default=0.0)
+                                     default=10.0)
     is_active = models.BooleanField(default=False)
     is_glass_pour = models.BooleanField(default=True)
     is_available = models.BooleanField(default=True)
@@ -198,7 +220,7 @@ class SpiritOrderItem(BaseInventoryItem):
                                    null=True,
                                    blank=True)
     menu_price = models.DecimalField(max_digits=5, decimal_places=2,
-                                     default=0.0)
+                                     default=10.0)
     is_well = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     is_available = models.BooleanField(default=True)
@@ -266,6 +288,7 @@ class BeerOrderItem(BaseInventoryItem):
                                    blank=True)
     style = models.ForeignKey(BeerStyle, on_delete=models.CASCADE)
     menu_price = models.DecimalField(max_digits=5, decimal_places=2,
-                                     default=0.0)
+                                     default=10.0)
     is_active = models.BooleanField(default=True)
     is_available = models.BooleanField(default=True)
+    is_on_deck = models.BooleanField(default=False)

@@ -1,7 +1,7 @@
 {% if well_pours %}
-<h4 class="font-bold">Well Liquor Pours</h4>
+<h5 class="font-bold mb-3">Well Liquor Pours</h5>
 {% for liquor in well_pours %}
-<p>{{ liquor.producer.name }} {{ liquor.name }}</p>
+<p class="lh-sm">{{ liquor.producer.name }} {{ liquor.name }} <span class="fw-bold">{{ liquor.category }}</span></p>
 {% endfor %}
 
 {% endif %}
