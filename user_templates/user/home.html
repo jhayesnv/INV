@@ -4,6 +4,15 @@
 {% block main %}
 <div class="container-fluid mt-3 mx-auto">
     <div class="row">
+        <!-- out of stock items -->
+        <div class="col-sm my-3 text-center">
+            <div class="mb-5">
+                {% include 'user/partials/out_of_stock_items.html' %}
+            </div>
+            <div class="mb-3">
+                {% include 'user/partials/update.html' %}
+            </div>
+        </div>
         <!-- well pours, glass pours, draft pours -->
         <div class="col-sm my-3 text-center">
             <div class="mb-5">
@@ -12,36 +21,25 @@
             <div class="mb-5">
                 {% include 'user/partials/glass_pours.html' %}
             </div>
-            <div class="mb-5">
+            <div class="mb-3">
                 {% include 'user/partials/draft_pours.html' %}
             </div>
         </div>
-        <!-- out of stock items -->
-        <div class="col-sm my-3 text-center">
-            <div class="mb-5">
-                {% include 'user/partials/out_of_stock_items.html' %}
-            </div>
-            <div class="mb-5">
-                {% include 'user/partials/update.html' %}
-            </div>
-        </div>
+
     </div>
-    <hr>
+    <div class="container">
+        <hr>
+
+    </div>
     <!-- Events, updates, etc. -->
     <div class="row my-3">
         <!-- reservations/large parties -->
         <div class="col-sm my-3">
-            <h5 class="mb-3 text-center">Reservations</h5>
-            <ol class="list-group list-group-numbered">
-                {% include 'user/partials/reservation.html' %}
-            </ol>
+            {% include 'user/partials/reservation.html' %}
         </div>
         <!-- restaurant updates -->
         <div class="col-sm my-3">
-            <h5 class="mb-3 text-center">Events</h5>
-            <ol class="list-group">
-                {% include 'user/partials/event.html' %}
-            </ol>
+            {% include 'user/partials/event.html' %}
         </div>
 
     </div>

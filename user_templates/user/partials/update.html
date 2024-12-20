@@ -1,9 +1,14 @@
+{% load humanize %}
 <h5 class="font-bold mb-3">Updates</h5>
+
+{% if updates %}
+
+{% for update in updates %}
 <div class="mb-3">
-    <p class="lh-sm mb-0"><span class="fw-bold">Bread pudding</span> now contains chocolate and walnuts!</p>
-    <small class="text-muted">(3 days ago)</small>
+    <p class="lh-sm mb-0"><span class="fw-bold">{{ update.title }}</span> {{ update.description }}</p>
+    <small class="text-muted">({{ update.submitted|naturaltime}})</small>
 </div>
-<div class="mb-3">
-    <p class="lh-sm mb-0">We will be phasing out of the charcuterie board and bacon jalapenos.</p>
-    <small class="text-muted">(3 days ago)</small>
-</div>
+{% endfor %}
+{% else %}
+<p class="mt-3 text-center">No major updates in the last month!</p>
+{% endif %}

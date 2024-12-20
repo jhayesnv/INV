@@ -7,12 +7,14 @@ from . import models as im
 
 @admin.register(im.Category)
 class CategoryAdmin(admin.ModelAdmin):
-    pass
+    list_display = ['name', 'area']
+    list_filter = ['area']
 
 
 @admin.register(im.Update)
 class UpdateAdmin(admin.ModelAdmin):
-    pass
+    list_display = ['title', 'description', 'submitted']
+    sortable_by = ['submitted']
 
 
 @admin.register(im.FoodOrderItem)

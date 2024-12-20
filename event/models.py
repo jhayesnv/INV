@@ -34,7 +34,7 @@ class Guest(models.Model):
     phone_number = models.CharField(max_length=18,
                                     validators=[RegexValidator(PHONE_REGEX)],
                                     blank=True)
-    email = models.EmailField(blank=True, unique=True)
+    email = models.EmailField(blank=True)
     notes = models.TextField(blank=True)
 
     def __str__(self):
@@ -57,4 +57,4 @@ class Reservation(BaseEvent):
     confirmed = models.BooleanField(default=False)
 
     def __str__(self):
-        return f'{self.guest.name} - {self.date}'
+        return f'{self.guest.name}, {self.date}'
