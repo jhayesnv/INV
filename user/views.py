@@ -57,9 +57,9 @@ def get_reservations():
 
 def get_updates():
     startdate = date.today()
-    enddate = startdate + timedelta(days=30)
+    enddate = startdate - timedelta(days=30)
     updates = Update.objects.filter(
-        submitted__range=[startdate, enddate]).order_by('submitted')
+        submitted__range=[enddate, startdate]).order_by('submitted')
 
     return updates
 

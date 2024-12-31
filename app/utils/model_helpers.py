@@ -1,4 +1,4 @@
-PHONE_REGEX = '^(\+?\d{0,2})?[\D]?\(?(\d{3})\)?[\D]?(\d{3})[\D]?(\d{4})$'  # noqa: W605 E501
+PHONE_REGEX = "^\\+?\\d{1,4}?[-.\\s]?\\(?\\d{1,3}?\\)?[-.\\s]?\\d{1,4}[-.\\s]?\\d{1,4}[-.\\s]?\\d{1,9}$"  # noqa: W605 E501
 
 FOOD_ORDER_ITEM_UNIT_CHOICES = [
     ('cs', 'cs'),
@@ -105,6 +105,7 @@ BASE_SPIRIT_CHOICES = [
     ('Bourbon', 'Bourbon'),
     ('Rye', 'Rye'),
     ('Scotch', 'Scotch'),
+    ('Whiskey', 'Whiskey'),
     ('Cachaca', 'Cachaca'),
     ('Genever', 'Genever'),
     ('Pisco', 'Pisco'),

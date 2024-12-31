@@ -12,7 +12,7 @@ class SpiritOrderItemListView(ListAPIView):
     queryset = SpiritOrderItem.objects.all()
     serializer_class = SpiritOrderItemListSerializer
     filter_backends = [DjangoFilterBackend, SearchFilter]
-    filterset_fields = ['producer__name', 'category', 'region']
+    filterset_fields = ['producer', 'category', 'is_well', 'is_one_ounce_pour']
     search_fields = ['name', 'description', 'producer__name']
 
 

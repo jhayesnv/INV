@@ -1,29 +1,33 @@
 <h5>Out of Stock Items</h5>
 
-{% if not out_of_stock_items.spirits %}
+
+{% if not out_of_stock_items.spirits and not out_of_stock_items.food and not out_of_stock_items.beer and not out_of_stock_items.wine %}
 <p class="mt-3">Nothing is out of stock today!</p>
 <p>PRAISE THE INVENTORY GODS</p>
 {% else %}
 
-{% if out_of_stock_items.spirits %}
 <div class="my-3">
     {% if out_of_stock_items.food %}
-    <p class="h6">Food</p>
+    <p class="h6 fw-bold">Food</p>
     {% for item in out_of_stock_items.food %}
     <p>{{ item.name }}</p>
     {% endfor %}
     {% endif %}
 </div>
 
-<p class="h6 my-3">Spirits</p>
-{% for liquor in out_of_stock_items.spirits %}
-<p>{{ liquor.producer.name }} {{ liquor.name }} {{ liquor.category }}</p>
-{% endfor %}
-{% endif %}
+<div class="my-3">
+    {% if out_of_stock_items.spirits %}
+    <p class="h6 fw-bold">Spirits</p>
+    {% for liquor in out_of_stock_items.spirits %}
+    <p>{{ liquor.producer.name }} {{ liquor.name }} {{ liquor.category }}</p>
+    {% endfor %}
+    {% endif %}
+</div>
+
 
 <div class="my-3">
     {% if out_of_stock_items.wine %}
-    <p class="h6">Wine</p>
+    <p class="h6 fw-bold">Wine</p>
     {% for wine in out_of_stock_items.wine %}
     <p>{{ wine.producer.name }} "{{ wine.name }}" {{ wine.style }}</p>
     {% endfor %}
@@ -32,7 +36,7 @@
 
 <div class="my-3">
     {% if out_of_stock_items.beer %}
-    <p class="h6">Beer</p>
+    <p class="h6 fw-bold">Beer</p>
     {% for beer in out_of_stock_items.beer %}
     <p>{{ beer.producer.name }} {{ beer.name }}</p>
     {% endfor %}
